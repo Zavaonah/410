@@ -3,7 +3,7 @@ import nltk
 import re
 from collections import Counter, defaultdict
 from nltk.corpus import stopwords
-from nltk.tokenize import word_tokenize, 
+from nltk.tokenize import word_tokenize
 from gensim.models import Word2Vec
 def extract_columns(input_csv, output_csv):
     """
@@ -37,7 +37,7 @@ def clean(desc):
     w_tokenizer = nltk.tokenize.WhitespaceTokenizer()
     lemmatizer = nltk.stem.WordNetLemmatizer()
     line_tokenized = [lemmatizer.lemmatize(w) for w in w_tokenizer.tokenize(line)]
-
+    return line_tokenized
     
 
 
@@ -52,6 +52,7 @@ def main():
     extract_columns(input_file, output_file)
     three_column = pd.read_csv(output_file)
     three_column = three_column.description.apply(clean)
+    print(three_column.head())
 
 
 
