@@ -32,9 +32,12 @@ def extract_columns(input_csv, output_csv):
 
 def clean(desc):
     line = desc.strip()
-    line = re.sub(r'[^\w\s]', '',line)
+    line = re.sub(r'[^\w\s]', '',line.lower())
     line = re.sub("[0123456789]", '', line)
-    line = re.sub(r'[\W_]+', ' ', line.lower())
+    w_tokenizer = nltk.tokenize.WhitespaceTokenizer()
+    lemmatizer = nltk.stem.WordNetLemmatizer()
+    line_tokenized = [lemmatizer.lemmatize(w) for w in w_tokenizer.tokenize(line)]
+
     
 
 
@@ -48,6 +51,7 @@ def main():
     output_file = "output.csv"
     extract_columns(input_file, output_file)
     three_column = pd.read_csv(output_file)
+    three_column = three_column.description.apply(clean)
 
 
 
